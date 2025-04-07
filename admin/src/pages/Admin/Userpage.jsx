@@ -117,7 +117,8 @@ export default function Userpage() {
       {/* Appointments Tab */}
       {activeTab === "appointments" && (
         <div className="space-y-4 w-full h-[70vh] overflow-y-scroll">
-          {appointments.filter((app)=>app.userId==selectedPatient._id).map((appt) => (
+        {selectedPatient &&
+          appointments.filter((app)=>app.userId==selectedPatient?._id).map((appt) => (
             <div key={appt._id} className="bg-white p-4 shadow rounded-xl">
               <h2 className="font-semibold">
                 {appt.userData?.name || "Unknown Patient"} - {appt.slotDate} at{" "}
@@ -134,6 +135,17 @@ export default function Userpage() {
               </p>
             </div>
           ))}
+
+          {!selectedPatient &&
+          <div className="bg-white p-4 shadow rounded-xl">
+            <h2 className="font-semibold">Select a patient to view their appointments.</h2>
+          </div>
+          }
+
+            
+            {selectedPatient && !appointments.filter((app)=>app.userId==selectedPatient?._id).length && (
+              <p className="text-gray-500">No appointments found for this patient.</p>
+            )}
         </div>
       )}
 
